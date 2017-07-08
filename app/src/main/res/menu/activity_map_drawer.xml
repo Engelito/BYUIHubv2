@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Around Campus">
+        <menu>
+            <item
+                android:title="Buildings"
+                android:id="@+id/markers_buildings"
+                android:icon="@drawable/ic_domain_black_24dp" />
+        </menu>
+    </item>
+
+    <item android:title="Parking">
+        <menu>
+            <item
+                android:id="@+id/markers_north_parking"
+                android:icon="@drawable/ic_local_parking_black_24dp"
+                android:title="North Zone" />
+
+            <item
+                android:id="@+id/markers_south_parking"
+                android:icon="@drawable/ic_local_parking_black_24dp"
+                android:title="South Zone" />
+            <item
+                android:id="@+id/markers_city_parking"
+                android:icon="@drawable/ic_local_parking_black_24dp"
+                android:title="City Street" />
+            <item
+                android:id="@+id/markers_vistitor_parking"
+                android:icon="@drawable/ic_local_parking_black_24dp"
+                android:title="Visitor" />
+            <item
+                android:id="@+id/markers_long_overnight_parking"
+                android:icon="@drawable/ic_local_parking_black_24dp"
+                android:title="Long Term &amp; Overnight" />
+            <item
+                android:id="@+id/markers_meetinghouse_4th_ward_parking"
+                android:icon="@drawable/ic_local_parking_black_24dp"
+                android:title="4th Ward Meetinghouse" />
+            <item
+                android:id="@+id/markers_accessible_parking"
+                android:icon="@drawable/ic_accessible_black_24dp"
+                android:title="Accessible" />
+            <item
+                android:id="@+id/markers_limited_parking"
+                android:icon="@drawable/ic_timer_black_24dp"
+                android:title="Limited Time" />
+            <item
+                android:id="@+id/markers_free_parking"
+                android:icon="@drawable/ic_money_off_black_24dp"
+                android:title="Free" />
+            <item
+                android:id="@+id/markers_moto_parking"
+                android:icon="@drawable/ic_motorcycle_black_24dp"
+                android:title="Motorcycles, Scooters &amp; ATVs" />
+            <item
+                android:id="@+id/markers_faculty_parking"
+                android:icon="@drawable/ic_school_black_24dp"
+                android:title="Faculty / Staff" />
+            <item
+                android:id="@+id/markers_child_lab_parking"
+                android:icon="@drawable/ic_child_care_black_24dp"
+                android:title="Child Lab" />
+            <item
+                android:id="@+id/markers_campus_housing_parking"
+                android:icon="@drawable/ic_home_black_24dp"
+                android:title="On Campus Housing" />
+        </menu>
+    </item>
+
+    <item android:title="Bicycles">
+        <menu>
+            <item
+                android:id="@+id/markers_bike_racks"
+                android:icon="@drawable/ic_directions_bike_black_24dp"
+                android:title="Bike Racks" />
+        </menu>
+    </item>
+
+    <item android:title="Bus Stops">
+        <menu>
+            <item
+                android:id="@+id/markers_bus_walmart"
+                android:icon="@drawable/ic_directions_bus_black_24dp"
+                android:title="Wal-Mart Shuttle" />
+            <item
+                android:id="@+id/markers_bus_sle"
+                android:icon="@drawable/ic_airport_shuttle_black_24dp"
+                android:title="Salt Lake Express" />
+        </menu>
+    </item>
+
+</menu>
