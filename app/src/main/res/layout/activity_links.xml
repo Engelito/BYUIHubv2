@@ -14,7 +14,7 @@
         android:text="Pulse"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
@@ -25,7 +25,7 @@
         android:text="Scroll"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <Button
@@ -38,8 +38,9 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="166dp" />
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:layout_constraintHorizontal_bias="0.503" />
 
     <TextView
         android:id="@+id/textView4"
@@ -47,7 +48,7 @@
         android:layout_height="31dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="30dp"
         android:text="A mobile app that helps students keep track of important updates."
         android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -63,23 +64,19 @@
         android:text="A student-run, campus-wide news source."
         android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/pulse"
-        tools:layout_editor_absoluteX="13dp" />
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/pulse" />
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="212dp"
+        android:layout_height="17dp"
         android:layout_marginLeft="16dp"
         android:text="All featured events for BYU-Idaho."
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/Scroll"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/Calender"
-        app:layout_constraintVertical_bias="0.642" />
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/Scroll" />
 </android.support.constraint.ConstraintLayout>

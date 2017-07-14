@@ -11,11 +11,12 @@
         android:hint="write your Message"
         android:textSize="20sp"
         android:gravity="top"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:onClick="saveButtonClicked02"
         android:text="SAVE"
-        android:textSize="20sp"
-        android:onClick="saveButtonClicked"/>
+        android:textSize="20sp" />
 </LinearLayout>

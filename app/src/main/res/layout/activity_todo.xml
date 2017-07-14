@@ -22,4 +22,11 @@
         android:onClick="onClick"
         android:text="ADD ERRAND" />
 
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:onClick="clearButton"
+        android:text="Clear List" />
+
 </LinearLayout>

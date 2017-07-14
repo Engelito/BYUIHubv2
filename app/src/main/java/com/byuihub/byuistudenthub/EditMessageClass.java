@@ -1,48 +1,58 @@
 package com.byuihub.byuistudenthub;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-public class EditMessageClass extends AppCompatActivity {
-    /**  */
-    private String messageText;
-    /**  */
-    private int position;
-    private static final String TAG = "EditMessage";
+import static com.byuihub.byuistudenthub.R.id.message;
 
-    /**
-     *
-     * @param savedInstanceState
-     */
+public class EditMessageClass extends AppCompatActivity {
+
+    private static final String TAG = "EditMessageClass";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("EditMessageClass","entering on create");
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.to_do_layout);
-
-        Intent intent = getIntent();
-
-        messageText = intent.getStringExtra(Intent_Constants.INTENT_MESSAGE_DATA);
-        position = intent.getIntExtra(Intent_Constants.INTENT_ITEM_POSITION,-1);
-
-        EditText messageData = (EditText) findViewById(R.id.message);
-        messageData.setText(messageText);
     }
 
     /**
+     * This method takes input from the user, saves it into a database, which
+     * is then added to the To-Do list.
      *
      * @param v
      */
-    public void saveButtonClicked(View v){
-        String changedMessageText = ((EditText)findViewById(R.id.message)).getText().toString();
-        Intent intent = new Intent();
-        intent.putExtra(Intent_Constants.INTENT_CHANGED_MESSAGE,changedMessageText);
-        intent.putExtra(Intent_Constants.INTENT_ITEM_POSITION,position);
-        setResult(Intent_Constants.INTENT_RESULT_CODE_TWO,intent);
-        finish();
+    public void saveButtonClicked02(View v) {
+
+        Log.i("EditMessageClass","Entering saved Button");
+        String messageText = ((EditText)findViewById(message)).getText().toString();
+        if(messageText.equals("")){
+        }
+        else{
+            SharedPreferences sharedPref = getSharedPreferences("list", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            int arraySize = sharedPref.getInt("listSize", 0);
+            arraySize += 1;
+            Log.i("EditMessageClass","arraySize updated: " + arraySize);
+            editor.putInt("listSize", arraySize );
+            editor.putString("listItem_" + arraySize,messageText);
+            Log.i("EditMessageClass","messageText added" + messageText);
+            editor.apply();
+
+
+            Intent intent = new Intent();
+
+            intent.putExtra(Intent_Constants.INTENT_MESSAGE_FIELD,messageText);
+            setResult(Intent_Constants.INTENT_RESULT_CODE, intent);
+            //startActivity(intent);
+            finish();
+
+
+        }
     }
 }

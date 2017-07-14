@@ -3,11 +3,13 @@ package com.byuihub.byuistudenthub;
 import android.*;
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -48,6 +50,7 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
@@ -67,9 +70,9 @@ public class Map extends AppCompatActivity
 
     /** Needed to store and access custom markers used throughout map. */
     private ArrayList <Marker> buildings, northParkingMarkers, southParkingMarkers, visitorParkingParkers,
-            accessibleParkingMarkers, limitedParkingMarkers, motorcycleParkingMarkers, freeParkingMarkers,
+            accessibleParkingMarkers, motorcycleParkingMarkers, freeParkingMarkers,
             longTermParkingMarkers, facultyParkingMarkers, childLabMarkers, campusHousingParkingMarkers,
-            fourthWardMarkers, busStopsSLE, busStopsWalMart, bikeRacks;
+            fourthWardMarkers, busStopsSLE, busStopsWalMart, bikeRacks, limitedParkingMarkers;
 
     /** Needed to store and access custom overlays used throughout map. */
     private ArrayList <Polygon> northParkingOverlays, facultyParkingOverlays, southParkingOverlays,
@@ -176,17 +179,17 @@ public class Map extends AppCompatActivity
 //            }
 //        }
 
-//        if(motorcycleParkingMarkers.get(0).isVisible()) {
-//            for(Marker item : motorcycleParkingMarkers) {
-//                item.setVisible(false);
-//            }
-//        }
+        if(motorcycleParkingMarkers.get(0).isVisible()) {
+            for(Marker item : motorcycleParkingMarkers) {
+                item.setVisible(false);
+            }
+        }
 
-//        if(bikeRacks.get(0).isVisible()) {
-//            for(Marker item : bikeRacks) {
-//                item.setVisible(false);
-//            }
-//        }
+        if(bikeRacks.get(0).isVisible()) {
+            for(Marker item : bikeRacks) {
+                item.setVisible(false);
+            }
+        }
 
         if(freeParkingMarkers.get(0).isVisible()) {
             for(Marker item : freeParkingMarkers) {
@@ -514,6 +517,7 @@ public class Map extends AppCompatActivity
         setupParking();
         setupBikeRacks();
         setupBusStops();
+        setupMotoATVParking();
     }
 
     /**
@@ -1564,9 +1568,399 @@ public class Map extends AppCompatActivity
     }
 
     /**
+     * Setup the marker and overlay lists for parking information
+     */
+    private void setupMotoATVParking() {
+        MarkerOptions moto1 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_moto))
+                .position(new LatLng(43.816082, -111.783699))
+                .visible(false);
+
+        MarkerOptions moto2 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_moto))
+                .position(new LatLng(43.816644, -111.783379))
+                .visible(false);
+
+        MarkerOptions moto3 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_moto))
+                .position(new LatLng(43.817286, -111.783529))
+                .visible(false);
+
+        MarkerOptions moto4 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_moto))
+                .position(new LatLng(43.815217, -111.783704))
+                .visible(false);
+
+        MarkerOptions moto5 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_moto))
+                .position(new LatLng(43.813812, -111.783695))
+                .visible(false);
+
+        MarkerOptions moto6 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_moto))
+                .position(new LatLng(43.813609, -111.783700))
+                .visible(false);
+
+        MarkerOptions moto7 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_moto))
+                .position(new LatLng(43.813017, -111.783702))
+                .visible(false);
+
+        MarkerOptions moto8 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_moto))
+                .position(new LatLng(43.812647, -111.783693))
+                .visible(false);
+
+        MarkerOptions moto9 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_moto))
+                .position(new LatLng(43.812497, -111.783705))
+                .visible(false);
+
+        motorcycleParkingMarkers.add(mGoogleMap.addMarker(moto1));
+        motorcycleParkingMarkers.add(mGoogleMap.addMarker(moto2));
+        motorcycleParkingMarkers.add(mGoogleMap.addMarker(moto3));
+        motorcycleParkingMarkers.add(mGoogleMap.addMarker(moto4));
+        motorcycleParkingMarkers.add(mGoogleMap.addMarker(moto5));
+        motorcycleParkingMarkers.add(mGoogleMap.addMarker(moto6));
+        motorcycleParkingMarkers.add(mGoogleMap.addMarker(moto7));
+        motorcycleParkingMarkers.add(mGoogleMap.addMarker(moto8));
+        motorcycleParkingMarkers.add(mGoogleMap.addMarker(moto9));
+    }
+
+    /**
      * Setup the marker and overlay lists for bike rack information
      */
     private void setupBikeRacks() {
+        MarkerOptions bikes1 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.821518, -111.783595))
+                .visible(false);
+
+        MarkerOptions bikes2 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.821046, -111.783772))
+                .visible(false);
+
+        MarkerOptions bikes3 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.821340, -111.782849))
+                .visible(false);
+
+        MarkerOptions bikes4 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.821092, -111.783106))
+                .visible(false);
+
+        MarkerOptions bikes5 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.820689, -111.784082))
+                .visible(false);
+
+        MarkerOptions bikes6 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.820449, -111.783519))
+                .visible(false);
+
+        MarkerOptions bikes7 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.820197, -111.783573))
+                .visible(false);
+
+        MarkerOptions bikes8 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.820801, -111.782715))
+                .visible(false);
+
+        MarkerOptions bikes9 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.820933, -111.782103))
+                .visible(false);
+
+        MarkerOptions bikes10 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.821138, -111.781819))
+                .visible(false);
+
+        MarkerOptions bikes11 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.820557, -111.782076))
+                .visible(false);
+
+        MarkerOptions bikes12 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.820274, -111.782757))
+                .visible(false);
+
+        MarkerOptions bikes13 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819980, -111.781979))
+                .visible(false);
+
+        MarkerOptions bikes14 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819790, -111.781963))
+                .visible(false);
+
+        MarkerOptions bikes15 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819747, -111.782564))
+                .visible(false);
+
+        MarkerOptions bikes16 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819654, -111.782832))
+                .visible(false);
+
+        MarkerOptions bikes17 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819925, -111.783208))
+                .visible(false);
+
+        MarkerOptions bikes18 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819321, -111.781727))
+                .visible(false);
+
+        MarkerOptions bikes19 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819693, -111.780134))
+                .visible(false);
+
+        MarkerOptions bikes20 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819662, -111.778621))
+                .visible(false);
+
+        MarkerOptions bikes21 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819384, -111.782648))
+                .visible(false);
+
+        MarkerOptions bikes22 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819028, -111.782844))
+                .visible(false);
+
+        MarkerOptions bikes23 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.818803, -111.781793))
+                .visible(false);
+
+        MarkerOptions bikes24 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819407, -111.783971))
+                .visible(false);
+
+        MarkerOptions bikes25 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.818989, -111.784025))
+                .visible(false);
+
+        MarkerOptions bikes26 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819825, -111.784776))
+                .visible(false);
+
+        MarkerOptions bikes27 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819833, -111.785924))
+                .visible(false);
+
+        MarkerOptions bikes28 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.819175, -111.785345))
+                .visible(false);
+
+        MarkerOptions bikes29 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.818509, -111.783532))
+                .visible(false);
+
+        MarkerOptions bikes30 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.818075, -111.783897))
+                .visible(false);
+
+        MarkerOptions bikes31 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.817897, -111.784637))
+                .visible(false);
+
+        MarkerOptions bikes32 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.817502, -111.784143))
+                .visible(false);
+
+        MarkerOptions bikes33 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.817223, -111.785216))
+                .visible(false);
+
+        MarkerOptions bikes34 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.816333, -111.786096))
+                .visible(false);
+
+        MarkerOptions bikes35 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.816126, -111.785070))
+                .visible(false);
+
+        MarkerOptions bikes36 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.815963, -111.785363))
+                .visible(false);
+
+        MarkerOptions bikes37 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.816087, -111.784129))
+                .visible(false);
+
+        MarkerOptions bikes38 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.815630, -111.784022))
+                .visible(false);
+
+        MarkerOptions bikes39 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.814931, -111.785168))
+                .visible(false);
+
+        MarkerOptions bikes40 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.814334, -111.785128))
+                .visible(false);
+
+        MarkerOptions bikes41 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.814663, -111.784204))
+                .visible(false);
+
+        MarkerOptions bikes42 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.813843, -111.783433))
+                .visible(false);
+
+        MarkerOptions bikes43 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.815609, -111.783503))
+                .visible(false);
+
+        MarkerOptions bikes44 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.816029, -111.783128))
+                .visible(false);
+
+        MarkerOptions bikes45 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.814838, -111.782174))
+                .visible(false);
+
+        MarkerOptions bikes46 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.815081, -111.780693))
+                .visible(false);
+
+        MarkerOptions bikes47 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.816610, -111.782751))
+                .visible(false);
+
+        MarkerOptions bikes48 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.815870, -111.780283))
+                .visible(false);
+
+        MarkerOptions bikes49 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.816862, -111.781182))
+                .visible(false);
+
+        MarkerOptions bikes50 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.817346, -111.781218))
+                .visible(false);
+
+        MarkerOptions bikes51 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.817215, -111.782148))
+                .visible(false);
+
+        MarkerOptions bikes52 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.817130, -111.782929))
+                .visible(false);
+
+        MarkerOptions bikes53 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.818074, -111.782915))
+                .visible(false);
+
+        MarkerOptions bikes54 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.818066, -111.783360))
+                .visible(false);
+
+        MarkerOptions bikes55 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_bike))
+                .position(new LatLng(43.818104, -111.781697))
+                .visible(false);
+
+        bikeRacks.add(mGoogleMap.addMarker(bikes1));
+        bikeRacks.add(mGoogleMap.addMarker(bikes2));
+        bikeRacks.add(mGoogleMap.addMarker(bikes3));
+        bikeRacks.add(mGoogleMap.addMarker(bikes4));
+        bikeRacks.add(mGoogleMap.addMarker(bikes5));
+        bikeRacks.add(mGoogleMap.addMarker(bikes6));
+        bikeRacks.add(mGoogleMap.addMarker(bikes7));
+        bikeRacks.add(mGoogleMap.addMarker(bikes8));
+        bikeRacks.add(mGoogleMap.addMarker(bikes9));
+        bikeRacks.add(mGoogleMap.addMarker(bikes10));
+        bikeRacks.add(mGoogleMap.addMarker(bikes11));
+        bikeRacks.add(mGoogleMap.addMarker(bikes12));
+        bikeRacks.add(mGoogleMap.addMarker(bikes13));
+        bikeRacks.add(mGoogleMap.addMarker(bikes14));
+        bikeRacks.add(mGoogleMap.addMarker(bikes15));
+        bikeRacks.add(mGoogleMap.addMarker(bikes16));
+        bikeRacks.add(mGoogleMap.addMarker(bikes17));
+        bikeRacks.add(mGoogleMap.addMarker(bikes18));
+        bikeRacks.add(mGoogleMap.addMarker(bikes19));
+        bikeRacks.add(mGoogleMap.addMarker(bikes20));
+        bikeRacks.add(mGoogleMap.addMarker(bikes21));
+        bikeRacks.add(mGoogleMap.addMarker(bikes22));
+        bikeRacks.add(mGoogleMap.addMarker(bikes23));
+        bikeRacks.add(mGoogleMap.addMarker(bikes24));
+        bikeRacks.add(mGoogleMap.addMarker(bikes25));
+        bikeRacks.add(mGoogleMap.addMarker(bikes26));
+        bikeRacks.add(mGoogleMap.addMarker(bikes27));
+        bikeRacks.add(mGoogleMap.addMarker(bikes28));
+        bikeRacks.add(mGoogleMap.addMarker(bikes29));
+        bikeRacks.add(mGoogleMap.addMarker(bikes30));
+        bikeRacks.add(mGoogleMap.addMarker(bikes31));
+        bikeRacks.add(mGoogleMap.addMarker(bikes32));
+        bikeRacks.add(mGoogleMap.addMarker(bikes33));
+        bikeRacks.add(mGoogleMap.addMarker(bikes34));
+        bikeRacks.add(mGoogleMap.addMarker(bikes35));
+        bikeRacks.add(mGoogleMap.addMarker(bikes36));
+        bikeRacks.add(mGoogleMap.addMarker(bikes37));
+        bikeRacks.add(mGoogleMap.addMarker(bikes38));
+        bikeRacks.add(mGoogleMap.addMarker(bikes39));
+        bikeRacks.add(mGoogleMap.addMarker(bikes40));
+        bikeRacks.add(mGoogleMap.addMarker(bikes41));
+        bikeRacks.add(mGoogleMap.addMarker(bikes42));
+        bikeRacks.add(mGoogleMap.addMarker(bikes43));
+        bikeRacks.add(mGoogleMap.addMarker(bikes44));
+        bikeRacks.add(mGoogleMap.addMarker(bikes45));
+        bikeRacks.add(mGoogleMap.addMarker(bikes46));
+        bikeRacks.add(mGoogleMap.addMarker(bikes47));
+        bikeRacks.add(mGoogleMap.addMarker(bikes48));
+        bikeRacks.add(mGoogleMap.addMarker(bikes49));
+        bikeRacks.add(mGoogleMap.addMarker(bikes51));
+        bikeRacks.add(mGoogleMap.addMarker(bikes52));
+        bikeRacks.add(mGoogleMap.addMarker(bikes53));
+        bikeRacks.add(mGoogleMap.addMarker(bikes54));
+        bikeRacks.add(mGoogleMap.addMarker(bikes55));
+
     }
 
     /**
